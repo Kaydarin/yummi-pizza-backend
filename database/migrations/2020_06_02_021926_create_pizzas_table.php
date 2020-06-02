@@ -18,10 +18,11 @@ class CreatePizzasTable extends Migration
         Schema::create('pizzas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->decimal('price', 15, 2);
             $table->string('currency')->default('USD');
             $table->string('img')->nullable();
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
 

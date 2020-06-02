@@ -1,5 +1,7 @@
 <?php
 
+header('Access-Control-Allow-Origin: http://localhost:3000');
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +22,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/testget', 'ApiController@getTest');
 Route::get('/pizza', 'ApiController@getPizza');
+Route::post('/orderpizza', 'ApiController@orderPizza');

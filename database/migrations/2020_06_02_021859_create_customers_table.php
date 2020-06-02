@@ -18,12 +18,13 @@ class CreateCustomersTable extends Migration
             $table->string('firstname');
             $table->string('lastname');
             $table->string('addressline1');
-            $table->string('addressline2');
+            $table->string('addressline2')->nullable();
             $table->string('country');
             $table->string('city');
-            $table->integer('poscode');
+            $table->string('poscode');
             $table->string('phoneno1');
-            $table->string('phoneno2');
+            $table->string('phoneno2')->nullable();
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

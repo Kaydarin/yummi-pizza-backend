@@ -18,6 +18,7 @@ class CreateOrderPizzaTable extends Migration
             $table->integer('order_id')->unsigned();
             $table->integer('pizza_id')->unsigned();
             $table->integer('pizzacount');
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }
