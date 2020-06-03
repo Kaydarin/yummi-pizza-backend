@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Pizza;
 use App\Customer;
 use App\Order;
@@ -14,20 +13,26 @@ class APIController extends Controller
         error_log('passed here get');
         return response()->json([
             "message" => "get test passed"
-        ], 201);
+        ], 200);
+    }
+
+    public function postTest(Request $request) {
+        error_log('passed here post');
+        return response()->json([
+            "message" => "post test passed"
+        ], 200);
     }
 
     public function getPizza(Request $request) {
 
-        $pizzas = Pizza::select('name', 'description', 'price', 'currency', 'img')->get();
-        error_log($pizzas);
-        // Log::info('bitch');
+        $pizzas = Pizza::select('id', 'name', 'description', 'price', 'currency', 'img')
+                        // ->where('deleted', false)
+                        ->get();
+        
         return response()->json($pizzas, 200);
     }
 
     public function orderPizza(Request $request) {
-        error_log('passed here post');
-
 
         $newcustomer = Customer::create([
             'firstname'=> $request->user['firstName'],
@@ -41,7 +46,7 @@ class APIController extends Controller
             'phoneno2' => $request->user['phoneNo2']
         ]);
        
-        $order = $newcustomer->order()->create([
+        $order = $newcustomer->orders()->create([
            'status' => 'placed',  // placed, baking , delivering, completed
            'deliverycharge' => 15.00,
            'currency' => $request->currency
@@ -58,40 +63,92 @@ class APIController extends Controller
             }
         }
 
-        // error_log($order);
-        // $user = Order::find($order->id);
-        // error_log($user);
-        // $pz = [
-        //     (object) ['pid' => 1],
-        //     (object) ['pid' => 5],
-        //     (object) ['pid'=> 7]
-        // ];
-
-        // $myObject = new \StdClass();
-        // $myObject->pid = 1;
-        // $myObject->pid = 2;
-
-        // foreach ($pz as $p) {
-        //     // error_log($p->pid);
-        // }
-
-        
-        
-        // $order->pizzas()->attach(1, ['pizzacount' => 10])
-        // error_log($request->firstName);
-
-        // $order = new Order;
-        // $order->name = $request->name;
-        // $order->course = $request->course;
-        // $order->save();
-
-        
-        // return response()->json([
-        //     "message" => "get post pass"
-        // ], 201);
-
         return response()->json([
             "orderNumber" => $order->id
         ], 201);
+    }
+
+    public function getOrder(Request $request) {
+
+        if ($request->input('by') === 'order') {
+
+            $id = $request->input('query');
+
+            $order = Order::select(['*', 'orders.id AS id'])
+                            ->join('customers', 'customer_id', '=', 'customers.id')
+                            ->where('orders.id', $id)
+                            ->first();
+
+            if ($order === null) {
+                return response()->json([], 200);
+            }
+
+            $pizzaorders = $order->pizzas()
+                                    ->select([
+                                        'pizzas.id',
+                                        "pizzas.name",
+                                        "pizzas.description",
+                                        "pizzas.price",
+                                        "pizzas.currency",
+                                        "order_pizza.pizzacount"
+                                    ])
+                                    ->get();
+
+            $neworder = collect($order);
+            $neworder->put("pizza", $pizzaorders);
+
+            $allorder = [$neworder];
+
+            return response()->json( $allorder, 200);
+        }
+
+        if ($request->input('by') === 'phone') {
+
+            $phone = $request->input('query');
+
+            $orders = Order::whereHas('customer', function($query) use ($phone) {
+                $query->where('phoneno1', $phone);
+            })->with('customer')->get();
+
+            $allorder = [];
+            
+            foreach($orders as $o) {
+                $ordermodeltoarray = collect($o->toArray());
+                collect($ordermodeltoarray)->map(function ($item, $key) use ($ordermodeltoarray) {
+                    
+                    if ($key == 'customer') {
+                        $ordermodeltoarray->put("firstname", $item{'firstname'});
+                        $ordermodeltoarray->put("lastname", $item{'lastname'});
+                        $ordermodeltoarray->put("addressline1", $item{'addressline1'});
+                        $ordermodeltoarray->put("addressline2", $item{'addressline2'});
+                        $ordermodeltoarray->put("country", $item{'country'});
+                        $ordermodeltoarray->put("city", $item{'city'});
+                        $ordermodeltoarray->put("poscode", $item{'poscode'});
+                        $ordermodeltoarray->put("phoneno1", $item{'phoneno1'});
+                        $ordermodeltoarray->put("phoneno2", $item{'phoneno2'});
+                        $ordermodeltoarray->put("country", $item{'country'});
+                    }
+                });
+
+                $ordermodeltoarray->forget('customer');
+
+                $pizzaorders = $o->pizzas()
+                                    ->select([
+                                        'pizzas.id',
+                                        "pizzas.name",
+                                        "pizzas.description",
+                                        "pizzas.price",
+                                        "pizzas.currency",
+                                        "order_pizza.pizzacount"
+                                    ])
+                                    ->get();
+
+                $adjustedorder = $ordermodeltoarray->put("pizza", $pizzaorders);
+
+                array_push($allorder, $adjustedorder);
+            }
+
+            return response()->json($allorder, 200);
+        }
     }
 }

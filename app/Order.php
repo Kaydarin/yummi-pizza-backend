@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     protected $fillable = ['status', 'deliverycharge', 'currency', 'deleted'];
+    protected $hidden = ['pivot'];
 
     public function customer()
     {
