@@ -32,6 +32,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 9.99,
                 'currency' => 'USD',
+                'img' => 'pepperoni_usuals.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -42,6 +43,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 18.99,
                 'currency' => 'USD',
+                'img' => 'macaroni_loveronii.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -52,6 +54,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 23.99,
                 'currency' => 'USD',
+                'img' => 'hawaiian_stuff.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -62,6 +65,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 12.99,
                 'currency' => 'USD',
+                'img' => 'chika_chick.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -72,6 +76,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 16.99,
                 'currency' => 'USD',
+                'img' => 'beat_the_meat.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -82,6 +87,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 8.99,
                 'currency' => 'USD',
+                'img' => 'veggie_diet.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -92,6 +98,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 27.99,
                 'currency' => 'USD',
+                'img' => 'seafood_sensation.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -102,6 +109,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 30.99,
                 'currency' => 'USD',
+                'img' => 'prawnxfish.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
@@ -112,6 +120,7 @@ class CreatePizzasTable extends Migration
                 'description' => 'Some nice toppings included',
                 'price' => 15.99,
                 'currency' => 'USD',
+                'img' => 'tuna_muna.jpg',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now()
             )
