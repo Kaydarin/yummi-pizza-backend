@@ -1,5 +1,25 @@
 <?php
+// header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+// header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
+$origin = $_SERVER['HTTP_ORIGIN'];
+$allowed_domains = [
+    'http://localhost:3000',
+    'http://localhost:3000/',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3000/',
+    'http://localhost:8000',
+    'http://localhost:8000/',
+    'http://127.0.0.1:8000',
+    'http://127.0.0.1:8000/',
+];
+
+if (in_array($origin, $allowed_domains)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+    header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+}
 /*
 |--------------------------------------------------------------------------
 | Create The Application

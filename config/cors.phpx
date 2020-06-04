@@ -31,4 +31,20 @@ return [
 
     'supports_credentials' => false,
 
+    // 'paths' => ['api/*'],
+
+    // 'allowed_methods' => ['GET', 'POST', 'PATCH', 'PUT', 'OPTIONS'],
+
+    // 'allowed_origins' => ['*'],
+
+    // 'allowed_origins_patterns' => ['*'],
+
+    // 'allowed_headers' => ['Origin', 'Content-Type', 'X-Auth-Token'],
+
+    // 'exposed_headers' => [],
+
+    // 'max_age' => 0,
+
+    // 'supports_credentials' => false,
+
 ];

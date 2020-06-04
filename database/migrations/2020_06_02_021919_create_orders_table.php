@@ -19,6 +19,7 @@ class CreateOrdersTable extends Migration
             $table->string('status');
             $table->decimal('deliverycharge', 15, 2);
             $table->string('currency')->default('USD');
+            $table->boolean('deleted')->default(false);
             $table->timestamps();
         });
     }

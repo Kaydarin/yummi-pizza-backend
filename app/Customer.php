@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    public function order()
+    protected $fillable = ['firstname', 'lastname', 'addressline1', 'addressline2', 'country', 'city', 'poscode', 'phoneno1', 'phoneno2', 'deleted'];
+
+    public function orders()
     {
-        return $this->hasOne('App\Order', 'customer_id');
+        return $this->hasMany('App\Order', 'customer_id');
     }
 }
