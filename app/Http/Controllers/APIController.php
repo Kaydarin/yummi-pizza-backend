@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use App\Pizza;
 use App\Customer;
 use App\Order;
@@ -23,13 +24,33 @@ class APIController extends Controller
         ], 200);
     }
 
+    public function getPizzaPicture($fileName) {
+        $path = public_path().'/img/'.$fileName;
+        return Response::download($path);        
+    }
+
     public function getPizza(Request $request) {
 
         $pizzas = Pizza::select('id', 'name', 'description', 'price', 'currency', 'img')
                         // ->where('deleted', false)
                         ->get();
-        
-        return response()->json($pizzas, 200);
+        $allpizzas = $pizzas->toArray();
+
+        $allnewpizzas = [];
+
+        $baseurl  = url('/');
+
+        foreach ($allpizzas as $ap) {
+            $ap['ordercount'] = 0;
+            if ($ap['img'] === null) {
+                $ap['img'] = "";
+            } else {
+                $ap['img'] = $baseurl.'/img/'.$ap['img'];
+            }
+            array_push($allnewpizzas, $ap);
+        }
+
+        return response()->json($allnewpizzas, 200);
     }
 
     public function orderPizza(Request $request) {

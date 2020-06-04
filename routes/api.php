@@ -23,5 +23,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('/testget', 'ApiController@getTest');
 Route::post('/testpost', 'ApiController@postTest');
 Route::get('/pizza', 'ApiController@getPizza');
+Route::get('/img/{filename}', 'ApiController@getPizzaPicture');
 Route::post('/orderpizza', 'ApiController@orderPizza');
 Route::post('/order', 'ApiController@getOrder');

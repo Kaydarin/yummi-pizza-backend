@@ -8,6 +8,9 @@ class Order extends Model
 {
     protected $fillable = ['status', 'deliverycharge', 'currency', 'deleted'];
     protected $hidden = ['pivot'];
+    protected $casts = [
+        'deliverycharge' => 'decimal:2',
+    ];
 
     public function customer()
     {
